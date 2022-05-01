@@ -40,7 +40,7 @@ UP_CANNX (X-Class Neutron Cannon):
 	-----
 		90560	Unlicensed Fine-Tuned Compression Beam		0.797	14%	1	-25%	5%
 		37965	Illegal Fine-Tuned Charge Canister			0.746	14%	1	-25%	3%
-		511	Illegal Polarised Linearity Warp				0.95	14%	1	-24%	12%
+		511		Illegal Polarised Linearity Warp			0.95	14%	1	-24%	12%
 
 		Full criteria: Damage = 14%, Bullets = 1, sort by Charge Time
 
