@@ -34,3 +34,8 @@ you want it to.
 ## Notes
 
 If you want to, you can also just use the same module seed 3x and 6x. I think this is less interesting.
+
+You'll see a "Perfection" stat referenced over and over. The original creator devised it
+as a weighted average of how good a mod's stats are against their theoretical maximum. They
+scale from 0 to 1, with 1 meaning that a mod's stats are at their maximum. It's generally
+pretty useful as an indicator of how generally good a mod is.
