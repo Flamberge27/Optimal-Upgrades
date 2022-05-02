@@ -10,14 +10,13 @@ You'll notice that each main folder (i.e. /Suit) has/will have a significiant nu
 of CSV files removed - those would be the files which contain data on modules that will
 never be optimal, like the C-Rank ones.
 
-You'll also notice a new file containing "Top 6s" in its title. These are where I
-compile my top recommendations and, when necessary, reasonings and alternatives. Why the
-top 6 modules, you ask? Because you can use any Suit/Ship/Freighter tech module at most
-3 times in general inventory and 3 times in the tech inventory, meaning you'll need at
-most 6 distinct seeds.
+In the Ship, Suit, and Weapon folders you'll notice a new file containing "Top 6s" in its
+title. These will have ALL the top recommendations for that folder - e.g. "Suit Top 6" has
+the 6 best X-Class mods for life support, hazard protection, movement, shields, and even
+the top forbiddens.
 
-You can also just determine your favorite module's seed and use that over and over again,
-but I personally like to have some variation. 
+Suit/Ship have a top 6 because you can apply mods in general inventory and in tech; Weapon
+only needs top 3s.
 
 ## Usage
 
@@ -31,3 +30,7 @@ first (or generate an installed module), then edit that seed.
 
 Save, and when you next load into the game, you should see that your module has the stats
 you want it to.
+
+## Notes
+
+If you want to, you can also just use the same module seed 3x and 6x. I think this is less interesting.
