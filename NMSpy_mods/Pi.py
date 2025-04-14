@@ -1012,7 +1012,7 @@ LANGUAGES = [  # order defined by nms_enums.eLanguageRegion
 #       Additionally add Parquet files as output for better programmatic processing
 
 # 1.2.1
-#       Updated pyMHF to 0.1.11-dev (7bafefa83f425590c1757b349213432fe0495a80)
+#       Updated pyMHF to 0.1.11-dev+7bafefa83f425590c1757b349213432fe0495a80
 
 # endregion
 

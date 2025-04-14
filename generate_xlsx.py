@@ -31,7 +31,7 @@ OUTDATED = {  # outdated or only available since
 }
 RE_LANGUAGE = re.compile("\(([A-Za-z1-9-]+)\)")
 URL = "https://github.com/zencq/Pi"
-VERSION = "5.00"
+VERSION = "5.10"
 
 # endregion
 
