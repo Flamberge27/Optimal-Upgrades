@@ -819,7 +819,7 @@ PRODUCT = [  # ordered by occurrence in GcProceduralProductTable
     # "BOTT",  # MessageInBottle
 ]
 
-RE_PRODUCT_AGE = re.compile("([0-9]+)")
+RE_PRODUCT_AGE = re.compile("((?=[^,.\n]*\d)[0-9,.]+)")  # may contain thousands separators, but must contain at least one digit
 
 TECHNOLOGY = {
     "AlienShip": {
@@ -1022,7 +1022,8 @@ class PiModState(ModState):
     # does not work at the moment due to "access violation reading" (a multi threading issue)
     # executor = ThreadPoolExecutor(max_workers=2, thread_name_prefix="Pi_Executor")
 
-    language = None  # name of column to write the name in, will be set automatically
+    language : str = None  # name of column to write the name in, will be set automatically
+    reality_manager : cGcRealityManager = None
 
     is_fully_booted : bool = False
     is_generation_started : bool = False
@@ -1048,16 +1049,14 @@ class PiMod(Mod):
     __description__ = "Generate data for all procedural items."
     __version__ = "1.2.1"
 
-    def __init__(self):
-        super().__init__()
-        self.state = PiModState()
+    state = PiModState()  # not in __init__ to survive reloading
 
     # region Construct
 
     @hooks.cGcRealityManager.Construct.after
     def hook_reality_manager_construct_after(self, this):
         logging.debug(f">> Pi: hook_reality_manager_construct_after > {this:X}")
-        self.reality_manager = map_struct(this, cGcRealityManager)
+        self.state.reality_manager = map_struct(this, cGcRealityManager)
         self.state.is_reality_manager_constructed = True
 
     # TODO: can be removed when NMS.py is updated to run with newer pyMHF
@@ -1116,8 +1115,10 @@ class PiMod(Mod):
 
     # region Language
 
-    def update_language(self, offset):
-        language_manager = map_struct(offset, nms_structs.cTkLanguageManagerBase)
+    @hooks.cTkLanguageManagerBase.Load.after
+    def hook_language_manager_load_after(self, this, *args):  # args as it does not matter and to avaid multiple signatures
+        logging.debug(f">> Pi: hook_language_manager_load_after")
+        language_manager = map_struct(this, nms_structs.cTkLanguageManagerBase)
         result = original = language_manager.meRegion
         if original == nms_enums.eLanguageRegion.LR_USEnglish:
             result = nms_enums.eLanguageRegion.LR_English
@@ -1126,14 +1127,9 @@ class PiMod(Mod):
         if original > 0xF:  # -2 in total
             result -= 1
 
-        self.state.language = LANGUAGES[result]
-
-        logging.info(f">> Pi: Language loaded is {original} > {result} > {self.state.language}")
-
-    @hooks.cTkLanguageManagerBase.Load.after
-    def hook_language_manager_load_after(self, this, *args):
-        logging.debug(f">> Pi: hook_language_manager_load_after")
-        self.update_language(this)
+        if self.state.language != LANGUAGES[result]:
+            self.state.language = LANGUAGES[result]
+            logging.info(f">> Pi: Language is now {original} > {result} > {self.state.language}.")
 
     @staticmethod
     def extract_previous_languages(read_rows, seed):
@@ -1185,7 +1181,9 @@ class PiMod(Mod):
             try:
                 writer.write_table(table)
             except pa.lib.ArrowInvalid as e:
-                if not (e.message.startswith("Column 'Name(") and e.message.endswith(")' is declared non-nullable but contains nulls")):
+                message = str(e)
+                # also stored in CSV and recovered from there until all languages are set
+                if not (message.startswith("Column 'Name (") and message.endswith(")' is declared non-nullable but contains nulls")):
                     raise e
 
     # endregion
@@ -1247,7 +1245,7 @@ class PiMod(Mod):
         read_rows = self.read_existing_file(f_name)
 
         for seed in range(TOTAL_SEEDS):
-            pointer = self.reality_manager.GenerateProceduralProduct(f"{item_name}#{seed:05}".encode("utf-8"))
+            pointer = self.state.reality_manager.GenerateProceduralProduct(f"{item_name}#{seed:05}".encode("utf-8"))
             try:
                 generated = map_struct(pointer, cGcProductData)
             except ValueError:
@@ -1261,10 +1259,18 @@ class PiMod(Mod):
             # add seed and current translation
             row.update({
                 self.state.language: str(generated.NameLower).strip(),  # name for current language
-                "Age": int(RE_PRODUCT_AGE.findall(str(generated.Description))[0]),
+                "Age": self._get_age(generated.Description),
                 "Seed": seed,
                 "Value": generated.BaseValue,
             })
+
+            # TODO: remove when it got proper name generation
+            # currently only gets a template name like "%FOSSILADJ% %FOSSILANIMAL% %FOSSILPART%" which do not add any value
+            if item_name == "PROC_EXH":
+                row = {
+                    key: "" if key.startswith("Name (") else value
+                    for key, value in row.items()
+                }
 
             # update to track meta values
             if not meta:
@@ -1293,6 +1299,12 @@ class PiMod(Mod):
 
         self.state.product_counter[1].increment()
         self.check_procedural_product_generation_finished()
+
+    @staticmethod
+    def _get_age(description) -> int:
+        groups = RE_PRODUCT_AGE.findall(str(description))
+        age = re.sub("[^0-9]", "", groups[0])
+        return int(age)
 
     def check_procedural_product_generation_finished(self):
         if self.state.product_counter[0].value == self.state.product_counter[1].value == self.state.product_counter_total:
@@ -1334,7 +1346,7 @@ class PiMod(Mod):
         read_rows = self.read_existing_file(f_name)
 
         for seed in range(TOTAL_SEEDS):
-            pointer = self.reality_manager.GenerateProceduralTechnology(f"{item_name}#{seed:05}".encode("utf-8"), False)
+            pointer = self.state.reality_manager.GenerateProceduralTechnology(f"{item_name}#{seed:05}".encode("utf-8"), False)
             try:
                 generated = map_struct(pointer, cGcTechnology)
             except ValueError:
@@ -1354,7 +1366,7 @@ class PiMod(Mod):
             # update to track meta values
             for stat_bonus in generated.StatBonuses.value:
                 stat = safe_assign_enum(eStatsType, stat_bonus.Stat._meStatsType).name
-                stat_value = row[stat] = self.transform_value(stat, stat_bonus.Bonus)  # add in-game like value of a stat
+                stat_value = row[stat] = self._transform_value(stat, stat_bonus.Bonus)  # add in-game like value of a stat
 
                 if stat not in meta:
                     logging.debug(f"     > {stat} > {stat_bonus.Bonus} > {stat_value}")  # to see how the value looks
@@ -1371,7 +1383,7 @@ class PiMod(Mod):
             if seed % FREE_MEMORY_STEPS == 0:
                 # Clear the pending new technologies to free up some memory.
                 # Note that this may cause some internal issues in the game, so maybe don't load the game... But maybe not? I dunno!
-                self.reality_manager.PendingNewTechnologies.clear()
+                self.state.reality_manager.PendingNewTechnologies.clear()
 
         if available:
             weighting = [stat[1] - stat[0] + 1 for stat in meta.values()]  # max - min + 1
@@ -1412,7 +1424,7 @@ class PiMod(Mod):
 
     # transform raw value to look more like in-game
     @staticmethod
-    def transform_value(stat, bonus):
+    def _transform_value(stat, bonus):
         if stat not in TRANSFORM:
             logging.warning(f"     > not in TRANSFORM > {stat} > {bonus}")
 

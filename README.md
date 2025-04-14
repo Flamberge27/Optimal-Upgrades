@@ -26,17 +26,11 @@ There is also the `Pi.xlsx` file which is a user friendly collection of best and
 most desirable seeds. It is categorized by inventory type and contains the best
 values for each stat per item in addition to those already mentioned.
 
-## Known Issues
+<!-- ## Known Issues
 
 The following items are currently *outdated* or *not available* due to changes in
-a newer game version than the one currently supported. The latest supported version
-can be seen in the [releases here on GitHub](https://github.com/zencq/Pi/releases).
-
-* Treasure **Exhibit Fossil Sample** (PROC_EXH) is *available* since **Worlds Part II 5.50**
-* The following technology is *outdated* since **Worlds Part II 5.50**
-  * Illegal **Neutron Cannon** Upgrade (UP_CANNX)
-  * **Aeration Membrane** Upgrades (UP_UNW)
-  * **Humboldt Drive** Upgrades (UP_EXSUB)
+a newer yet unsupported game version. All supported versions can be can be seen
+below and the latest item update in the [releases here on GitHub](https://github.com/zencq/Pi/releases). -->
 
 ## How it works 2.2
 
