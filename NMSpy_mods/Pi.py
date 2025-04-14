@@ -1,4 +1,13 @@
-# pyright: reportMissingImports=false
+# /// script
+# dependencies = ["pymhf"]
+#
+# [tool.pymhf]
+# exe = "<path to install dir>/Binaries/NMS.exe"
+# start_paused = true
+#
+# [tool.pymhf.logging]
+# window_name_override = "NMS.py: Pi"
+# ///
 
 import csv
 import ctypes
@@ -14,21 +23,26 @@ from dataclasses import dataclass
 from datetime import datetime
 from enum import IntEnum
 
-from pymhf import FUNCDEF
+from pymhf import FUNCDEF, Mod, load_mod_file
 from pymhf.core import _internal as pymhf_internal
 from pymhf.core.memutils import map_struct
+from pymhf.core.module_data import module_data
 from pymhf.core.mod_loader import ModState
 from pymhf.core.utils import safe_assign_enum
 from pymhf.extensions.cpptypes import std
 from pymhf.gui import BOOLEAN, STRING, gui_button
 
-from nmspy import NMSMod
+from nmspy._internals.mods.singletons import _INTERNAL_LoadSingletons as nms_singleton
 from nmspy.data import (
     common as nms_structs_common,
     enums as nms_enums,
     structs as nms_structs,
 )
-from nmspy.data.functions import call_sigs, hooks, patterns
+from nmspy.data.functions import (
+    call_sigs as nms_call_sigs,
+    hooks,
+    patterns as nms_patterns,
+)
 from nmspy.decorators import on_fully_booted
 
 
@@ -38,198 +52,6 @@ from nmspy.decorators import on_fully_booted
 
 
 # size is one more than the last value
-class eStatsType_413(IntEnum):
-    Unspecified = 0x0
-    Weapon_Laser = 0x1
-    Weapon_Laser_Damage = 0x2
-    Weapon_Laser_Mining_Speed = 0x3
-    Weapon_Laser_HeatTime = 0x4
-    Weapon_Laser_Bounce = 0x5
-    Weapon_Laser_ReloadTime = 0x6
-    Weapon_Laser_Recoil = 0x7
-    Weapon_Laser_Drain = 0x8
-    Weapon_Laser_StrongLaser = 0x9
-    Weapon_Laser_ChargeTime = 0xA
-    Weapon_Laser_MiningBonus = 0xB
-    Weapon_Projectile = 0xC
-    Weapon_Projectile_Damage = 0xD
-    Weapon_Projectile_Range = 0xE
-    Weapon_Projectile_Rate = 0xF
-    Weapon_Projectile_ClipSize = 0x10
-    Weapon_Projectile_ReloadTime = 0x11
-    Weapon_Projectile_Recoil = 0x12
-    Weapon_Projectile_Bounce = 0x13
-    Weapon_Projectile_Homing = 0x14
-    Weapon_Projectile_Dispersion = 0x15
-    Weapon_Projectile_BulletsPerShot = 0x16
-    Weapon_Projectile_MinimumCharge = 0x17
-    Weapon_Projectile_MaximumCharge = 0x18
-    Weapon_Projectile_BurstCap = 0x19
-    Weapon_Projectile_BurstCooldown = 0x1A
-    Weapon_ChargedProjectile = 0x1B
-    Weapon_ChargedProjectile_ChargeTime = 0x1C
-    Weapon_ChargedProjectile_CooldownDuration = 0x1D
-    Weapon_ChargedProjectile_Drain = 0x1E
-    Weapon_ChargedProjectile_ExtraSpeed = 0x1F
-    Weapon_Rail = 0x20
-    Weapon_Shotgun = 0x21
-    Weapon_Burst = 0x22
-    Weapon_Flame = 0x23
-    Weapon_Cannon = 0x24
-    Weapon_Grenade = 0x25
-    Weapon_Grenade_Damage = 0x26
-    Weapon_Grenade_Radius = 0x27
-    Weapon_Grenade_Speed = 0x28
-    Weapon_Grenade_Bounce = 0x29
-    Weapon_Grenade_Homing = 0x2A
-    Weapon_Grenade_Clusterbomb = 0x2B
-    Weapon_TerrainEdit = 0x2C
-    Weapon_SunLaser = 0x2D
-    Weapon_SoulLaser = 0x2E
-    Weapon_MineGrenade = 0x2F
-    Weapon_FrontShield = 0x30
-    Weapon_Scope = 0x31
-    Weapon_Spawner = 0x32
-    Weapon_SpawnerAlt = 0x33
-    Weapon_Melee = 0x34
-    Weapon_StunGrenade = 0x35
-    Weapon_Stealth = 0x36
-    Weapon_Scan = 0x37
-    Weapon_Scan_Radius = 0x38
-    Weapon_Scan_Recharge_Time = 0x39
-    Weapon_Scan_Types = 0x3A
-    Weapon_Scan_Binoculars = 0x3B
-    Weapon_Scan_Discovery_Creature = 0x3C
-    Weapon_Scan_Discovery_Flora = 0x3D
-    Weapon_Scan_Discovery_Mineral = 0x3E
-    Weapon_Scan_Secondary = 0x3F
-    Weapon_Scan_Terrain_Resource = 0x40
-    Weapon_Scan_Surveying = 0x41
-    Weapon_Stun = 0x42
-    Weapon_Stun_Duration = 0x43
-    Weapon_Stun_Damage_Multiplier = 0x44
-    Weapon_FireDOT = 0x45
-    Weapon_FireDOT_Duration = 0x46
-    Weapon_FireDOT_DPS = 0x47
-    Weapon_FireDOT_Damage_Multiplier = 0x48
-    Suit_Armour_Health = 0x49
-    Suit_Armour_Shield = 0x4A
-    Suit_Armour_Shield_Strength = 0x4B
-    Suit_Energy = 0x4C
-    Suit_Energy_Regen = 0x4D
-    Suit_Protection = 0x4E
-    Suit_Protection_Cold = 0x4F
-    Suit_Protection_Heat = 0x50
-    Suit_Protection_Toxic = 0x51
-    Suit_Protection_Radiation = 0x52
-    Suit_Underwater = 0x53
-    Suit_UnderwaterLifeSupport = 0x54
-    Suit_DamageReduce_Cold = 0x55
-    Suit_DamageReduce_Heat = 0x56
-    Suit_DamageReduce_Toxic = 0x57
-    Suit_DamageReduce_Radiation = 0x58
-    Suit_Protection_HeatDrain = 0x59
-    Suit_Protection_ColdDrain = 0x5A
-    Suit_Protection_ToxDrain = 0x5B
-    Suit_Protection_RadDrain = 0x5C
-    Suit_Protection_WaterDrain = 0x5D
-    Suit_Stamina_Strength = 0x5E
-    Suit_Stamina_Speed = 0x5F
-    Suit_Stamina_Recovery = 0x60
-    Suit_Jetpack = 0x61
-    Suit_Jetpack_Tank = 0x62
-    Suit_Jetpack_Drain = 0x63
-    Suit_Jetpack_Refill = 0x64
-    Suit_Jetpack_Ignition = 0x65
-    Suit_Jetpack_DoubleJump = 0x66
-    Suit_Jetpack_WaterEfficiency = 0x67
-    Suit_Jetpack_MidairRefill = 0x68
-    Suit_Refiner = 0x69
-    Suit_AutoTranslator = 0x6A
-    Suit_Utility = 0x6B
-    Suit_RocketLocker = 0x6C
-    Ship_Weapons_Guns = 0x6D
-    Ship_Weapons_Guns_Damage = 0x6E
-    Ship_Weapons_Guns_Rate = 0x6F
-    Ship_Weapons_Guns_HeatTime = 0x70
-    Ship_Weapons_Guns_CoolTime = 0x71
-    Ship_Weapons_Guns_Scale = 0x72
-    Ship_Weapons_Guns_BulletsPerShot = 0x73
-    Ship_Weapons_Guns_Dispersion = 0x74
-    Ship_Weapons_Guns_Range = 0x75
-    Ship_Weapons_Guns_Damage_Radius = 0x76
-    Ship_Weapons_Lasers = 0x77
-    Ship_Weapons_Lasers_Damage = 0x78
-    Ship_Weapons_Lasers_HeatTime = 0x79
-    Ship_Weapons_Missiles = 0x7A
-    Ship_Weapons_Missiles_NumPerShot = 0x7B
-    Ship_Weapons_Missiles_Speed = 0x7C
-    Ship_Weapons_Missiles_Damage = 0x7D
-    Ship_Weapons_Missiles_Size = 0x7E
-    Ship_Weapons_Shotgun = 0x7F
-    Ship_Weapons_MiniGun = 0x80
-    Ship_Weapons_Plasma = 0x81
-    Ship_Weapons_Rockets = 0x82
-    Ship_Weapons_ShieldLeech = 0x83
-    Ship_Armour_Shield = 0x84
-    Ship_Armour_Shield_Strength = 0x85
-    Ship_Armour_Health = 0x86
-    Ship_Scan = 0x87
-    Ship_Scan_EconomyFilter = 0x88
-    Ship_Scan_ConflictFilter = 0x89
-    Ship_Hyperdrive = 0x8A
-    Ship_Hyperdrive_JumpDistance = 0x8B
-    Ship_Hyperdrive_JumpsPerCell = 0x8C
-    Ship_Hyperdrive_QuickWarp = 0x8D
-    Ship_Launcher = 0x8E
-    Ship_Launcher_TakeOffCost = 0x8F
-    Ship_Launcher_AutoCharge = 0x90
-    Ship_PulseDrive = 0x91
-    Ship_PulseDrive_MiniJumpFuelSpending = 0x92
-    Ship_PulseDrive_MiniJumpSpeed = 0x93
-    Ship_Boost = 0x94
-    Ship_Maneuverability = 0x95
-    Ship_BoostManeuverability = 0x96
-    Ship_LifeSupport = 0x97
-    Ship_Drift = 0x98
-    Ship_Teleport = 0x99
-    Ship_CargoShield = 0x9A
-    Freighter_Hyperdrive = 0x9B
-    Freighter_Hyperdrive_JumpDistance = 0x9C
-    Freighter_Hyperdrive_JumpsPerCell = 0x9D
-    Freighter_MegaWarp = 0x9E
-    Freighter_Teleport = 0x9F
-    Freighter_Fleet_Boost = 0xA0
-    Freighter_Fleet_Speed = 0xA1
-    Freighter_Fleet_Fuel = 0xA2
-    Freighter_Fleet_Combat = 0xA3
-    Freighter_Fleet_Trade = 0xA4
-    Freighter_Fleet_Explore = 0xA5
-    Freighter_Fleet_Mine = 0xA6
-    Vehicle_Boost = 0xA7
-    Vehicle_Engine = 0xA8
-    Vehicle_Scan = 0xA9
-    Vehicle_EngineFuelUse = 0xAA
-    Vehicle_EngineTopSpeed = 0xAB
-    Vehicle_BoostSpeed = 0xAC
-    Vehicle_BoostTanks = 0xAD
-    Vehicle_Grip = 0xAE
-    Vehicle_SkidGrip = 0xAF
-    Vehicle_SubBoostSpeed = 0xB0
-    Vehicle_Laser = 0xB1
-    Vehicle_LaserDamage = 0xB2
-    Vehicle_LaserHeatTime = 0xB3
-    Vehicle_LaserStrongLaser = 0xB4
-    Vehicle_Gun = 0xB5
-    Vehicle_GunDamage = 0xB6
-    Vehicle_GunHeatTime = 0xB7
-    Vehicle_GunRate = 0xB8
-    Vehicle_StunGun = 0xB9
-    Vehicle_TerrainEdit = 0xBA
-    Vehicle_FuelRegen = 0xBB
-    Vehicle_AutoPilot = 0xBC
-
-
 class eStatsType_520(IntEnum):
     Unspecified = 0x0
     Weapon_Laser = 0x1
@@ -677,8 +499,8 @@ STRUCTS_FIELDS_OFFSETS_PRODUCTDATA_520 = [("BaseValue", 0x16C), ("Description", 
 STRUCTS_FIELDS_OFFSETS_PRODUCTDATA_561 = [("BaseValue", 0x174), ("Description", 0x100), ("NameLower", 0x24C)]
 
 STRUCTS_FIELDS_OFFSETS_REALITYMANAGER_413 = [("PendingNewTechnologies", 0x238)]
-STRUCTS_FIELDS_OFFSETS_REALITYMANAGER_520 = [("PendingNewTechnologies", 0x238)]  # TODO changed
-STRUCTS_FIELDS_OFFSETS_REALITYMANAGER_561 = [("PendingNewTechnologies", 0x238)]  # TODO changed again?
+STRUCTS_FIELDS_OFFSETS_REALITYMANAGER_520 = [("PendingNewTechnologies", 0x258)]
+STRUCTS_FIELDS_OFFSETS_REALITYMANAGER_561 = [("PendingNewTechnologies", 0x268)]
 
 # must contain all fields as it is used in an array
 STRUCTS_FIELDS_OFFSETS_STATSBONUS_413 = [("Bonus", 0x4), ("Level", 0x8), ("Stat", 0x0)]
@@ -718,12 +540,14 @@ def _generate_fields(structs_fields_offsets: list[tuple[str, int]]):
 
 # region Call Signatures
 
-FUNCDEFS_LANGUAGEMANAGERBASE_LOAD_413 = FUNCDEF(restype=None, argtypes=[ctypes.c_ulonglong                                   ])
 FUNCDEFS_LANGUAGEMANAGERBASE_LOAD_520 = FUNCDEF(restype=None, argtypes=[ctypes.c_ulonglong, ctypes.c_ulonglong, ctypes.c_char])
 
 
-def _call_sigs(key, func_call_sigs):
-    call_sigs.FUNC_CALL_SIGS[key] = func_call_sigs[_binary_hash_index()]
+def _call_sigs(key, call_sigs):
+    if len(call_sigs) <= (binary_hash_index := _binary_hash_index()):
+        module_data.FUNC_CALL_SIGS[key] = call_sigs[-1]
+    else:
+        module_data.FUNC_CALL_SIGS[key] = call_sigs[_binary_hash_index()]
 
 
 # endregion
@@ -748,8 +572,11 @@ PATTERNS_REALITYMANAGER_GENERATEPROCEDURALTECHNOLOGY_413 = "44 88 44 24 18 48 89
 PATTERNS_REALITYMANAGER_GENERATEPROCEDURALTECHNOLOGY_520 = "44 88 44 24 18 48 89 4C 24 08 55 41"
 
 
-def _patterns(key, func_patterns):
-    patterns.FUNC_PATTERNS[key] = func_patterns[_binary_hash_index()]
+def _patterns(key, patterns):
+    if len(patterns) <= (binary_hash_index := _binary_hash_index()):
+        module_data.FUNC_PATTERNS[key] = patterns[-1]
+    else:
+        module_data.FUNC_PATTERNS[key] = patterns[binary_hash_index]
 
 
 # endregion
@@ -788,38 +615,54 @@ if pymhf_internal.BINARY_HASH in KNOWN_BINARY_HASH:
     ])
 
     _call_sigs("cTkLanguageManagerBase::Load", [
-        FUNCDEFS_LANGUAGEMANAGERBASE_LOAD_413,
+        nms_call_sigs.FUNC_CALL_SIGS["cTkLanguageManagerBase::Load"],
         FUNCDEFS_LANGUAGEMANAGERBASE_LOAD_520,
         FUNCDEFS_LANGUAGEMANAGERBASE_LOAD_520,
     ])
 
     _patterns("cTkLanguageManagerBase::Load", [
-        PATTERNS_LANGUAGEMANAGERBASE_LOAD_413,  # 4.13 (offset="0x24D5E90")
-        PATTERNS_LANGUAGEMANAGERBASE_LOAD_520,  # 5.20 (offset="0x23653E0")
-        PATTERNS_LANGUAGEMANAGERBASE_LOAD_520,  # 5.61 (offset="0x262C940")
+        PATTERNS_LANGUAGEMANAGERBASE_LOAD_413,
+        PATTERNS_LANGUAGEMANAGERBASE_LOAD_520,
     ])
     _patterns("cGcRealityManager::Construct", [
-        PATTERNS_REALITYMANAGER_CONSTRUCT_413,  # 4.13 (offset="0x0BC5AF0")
-        PATTERNS_REALITYMANAGER_CONSTRUCT_520,  # 5.20 (offset="0x0D14080")
-        PATTERNS_REALITYMANAGER_CONSTRUCT_561,  # 5.61 (offset="0x0D61800")
+        PATTERNS_REALITYMANAGER_CONSTRUCT_413,
+        PATTERNS_REALITYMANAGER_CONSTRUCT_520,
+        PATTERNS_REALITYMANAGER_CONSTRUCT_561,
     ])
     _patterns("cGcRealityManager::GenerateProceduralProduct", [
-        PATTERNS_REALITYMANAGER_GENERATEPROCEDURALPRODUCT_413,  # 4.13 (offset="0x0BCEAE0")
-        PATTERNS_REALITYMANAGER_GENERATEPROCEDURALPRODUCT_520,  # 5.20 (offset="0x0D218B0")
-        PATTERNS_REALITYMANAGER_GENERATEPROCEDURALPRODUCT_520,  # 5.61 (offset="0x0D6F0B0")
+        PATTERNS_REALITYMANAGER_GENERATEPROCEDURALPRODUCT_413,
+        PATTERNS_REALITYMANAGER_GENERATEPROCEDURALPRODUCT_520,
     ])
     _patterns("cGcRealityManager::GenerateProceduralTechnology", [
-        PATTERNS_REALITYMANAGER_GENERATEPROCEDURALTECHNOLOGY_413,  # 4.13 (offset="0x0BD1E00")
-        PATTERNS_REALITYMANAGER_GENERATEPROCEDURALTECHNOLOGY_520,  # 5.20 (offset="0x0D24F40")
-        PATTERNS_REALITYMANAGER_GENERATEPROCEDURALTECHNOLOGY_520,  # 5.61 (offset="0x0D72AD0")
+        PATTERNS_REALITYMANAGER_GENERATEPROCEDURALTECHNOLOGY_413,
+        PATTERNS_REALITYMANAGER_GENERATEPROCEDURALTECHNOLOGY_520,
     ])
 
     enums = [
-        eStatsType_413,
+        nms_enums.eStatsType,
         eStatsType_520,
         eStatsType_561,
     ]
     eStatsType = enums[_binary_hash_index()]
+
+    # TODO: can be removed when NMS.py is updated to run with newer pyMHF
+    # required as module_data of NMS.py are not carried over to pyMHF
+    _call_sigs("cGcRealityManager::Construct", [
+        nms_call_sigs.FUNC_CALL_SIGS["cGcRealityManager::Construct"],
+    ])
+    _call_sigs("cGcRealityManager::GenerateProceduralProduct", [
+        nms_call_sigs.FUNC_CALL_SIGS["cGcRealityManager::GenerateProceduralProduct"],
+    ])
+    _call_sigs("cGcRealityManager::GenerateProceduralTechnology", [
+        nms_call_sigs.FUNC_CALL_SIGS["cGcRealityManager::GenerateProceduralTechnology"],
+    ])
+    _call_sigs("cTkFSMState::StateChange", [
+        nms_call_sigs.FUNC_CALL_SIGS["cTkFSMState::StateChange"],
+    ])
+
+    _patterns("cTkFSMState::StateChange", [
+        nms_patterns.FUNC_PATTERNS["cTkFSMState::StateChange"],
+    ])
 
 # endregion
 
@@ -1168,6 +1011,9 @@ LANGUAGES = [  # order defined by nms_enums.eLanguageRegion
 #       Updated to NMS.py 0.7.1 that uses pyMHF 0.1.8 as backend
 #       Additionally add Parquet files as output for better programmatic processing
 
+# 1.2.1
+#       Updated pyMHF to 0.1.11-dev (7bafefa83f425590c1757b349213432fe0495a80)
+
 # endregion
 
 
@@ -1195,12 +1041,12 @@ class PiModState(ModState):
     technology_start_time : datetime = None
 
 
-class PiMod(NMSMod):
+class PiMod(Mod):
     __NMSPY_required_version__ = "0.7.0"
 
     __author__ = "zencq"
     __description__ = "Generate data for all procedural items."
-    __version__ = "1.2.0"
+    __version__ = "1.2.1"
 
     def __init__(self):
         super().__init__()
@@ -1210,13 +1056,19 @@ class PiMod(NMSMod):
 
     @hooks.cGcRealityManager.Construct.after
     def hook_reality_manager_construct_after(self, this):
-        logging.debug(f">> Pi: hook_reality_manager_construct_after > {this}")
+        logging.debug(f">> Pi: hook_reality_manager_construct_after > {this:X}")
         self.reality_manager = map_struct(this, cGcRealityManager)
         self.state.is_reality_manager_constructed = True
 
+    # TODO: can be removed when NMS.py is updated to run with newer pyMHF
+    # is necessray as the internal mod is not loaded when launching single-file mods
+    @hooks.cTkFSMState.StateChange.after
+    def state_change(self, this, lNewStateID, lpUserData, lbForceRestart):
+        nms_singleton.state_change(self, this, lNewStateID, lpUserData, lbForceRestart)
+
     @on_fully_booted
-    def enable_generation_on_fully_booted(self):
-        self.state.fully_booted = True
+    def on_fully_booted(self):
+        self.state.is_fully_booted = True
         logging.info(f">> Pi: The game is now fully booted.")
 
 
@@ -1330,22 +1182,27 @@ class PiMod(NMSMod):
         )
         table = pa.Table.from_pylist(result, schema=schema)
         with pq.ParquetWriter(f"{f_name}.parquet", schema) as writer:
-            writer.write_table(table)
+            try:
+                writer.write_table(table)
+            except pa.lib.ArrowInvalid as e:
+                if not (e.message.startswith("Column 'Name(") and e.message.endswith(")' is declared non-nullable but contains nulls")):
+                    raise e
 
     # endregion
 
     @gui_button("Start Generating")
+    @try_except
     def start_generating(self):
         if pymhf_internal.BINARY_HASH not in KNOWN_BINARY_HASH:
             logging.error(f">> Pi: The used executable is unknown. This mod only works with the following GOG.com versions: {', '.join(KNOWN_BINARY_HASH.values())}")
             return
 
-        if not all([self.state.is_reality_manager_constructed]):
-            logging.error(f">> Pi: Not all required objects could be constructed. Please ensure all functions are set up correctly, then restart and try again.")
+        if not self.state.is_fully_booted:
+            logging.error(f">> Pi: The game is not fully booted yet. Try again after it says it is.")
             return
 
-        if not self.state.fully_booted:
-            logging.error(f">> Pi: The game is not fully booted yet. Try again after it says it is.")
+        if not all([self.state.is_reality_manager_constructed]):
+            logging.error(f">> Pi: Not all required objects could be constructed. Please ensure all functions are set up correctly, then restart and try again.")
             return
 
         if self.state.is_generation_started:
@@ -1594,3 +1451,7 @@ class PiMod(NMSMod):
             self.state.technology_counter[1].reset()
 
     # endregion
+
+
+if __name__ == "__main__":
+    load_mod_file(__file__)
