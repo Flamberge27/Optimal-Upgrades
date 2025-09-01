@@ -1,0 +1,119 @@
+UP_HYPX (Hyperdrive):
+=====
+	[Seed] [Name] [Distance] [Efficiency]
+
+	There are a lot of perfects (300 LY / 100). Here are my favorite names:
+
+	12704	Forbidden Rewired Reality Destabiliser
+	18310	'Irregular' Heated Warp Core
+	33329	Banned Polished Causality Isolator
+	34602	Unlicensed Upgraded Antimatter Injector
+	76058	'Modified' Heated Superluminal Drive
+	79441	Black Market Rewired Relativity Shield
+
+	Full list: 5924, 12704, 18310, 19737, 26720, 27141, 27225, 28893, 30738, 33329, 34602, 35410, 40703, 45967, 58178, 63907, 67466, 67687, 76058, 76756, 79441, 83080, 91149, 95353
+
+UP_LAUNX (Launch Thrusters):
+=====
+	[Seed] [Name]
+
+	There are like 60 perfect modules (-25 launch, +10 boost). Some of the more unique names:
+
+		31247	Reverse-Engineered Automatic Launch Computer
+		9608	Counterfeit Inverted Orbit Synchroniser
+		71255	Black Market Rewired Gravity Harmoniser
+		57870	Banned Optical Nozzles
+		18922	Forbidden Automatic Gravity Shifter
+		19466	Prohibited Automatic Venting Unit
+
+UP_PULSEX (Pulse Enginge):
+=====
+	[Seed] [Name] [Efficiency] [Maneuverability] [Boost] 
+
+	There are a lot of perfects:
+	-----
+		09512	UNLICENSED REWIRED PLASMA EXHAUST		25%	14%	20%	
+		13276	SUSPECT UPGRADED ELECTRON LOOM			25%	14%	20%	
+		55561	OUTLAWED STABILISED FUEL PIPES			25%	14%	20%	
+		68327	'IRREGULAR' UPGRADED PROPULSION UNIT	25%	14%	20%	
+		74931	'MODIFIED' STABILISED IMPULSE NOZZLE 	25%	14%	20%	
+		87950	PROHIBITED POLISHED SHOCKWAVE SHIELD 	25%	14%	20%
+
+UP_S_SHLX (Shield):
+=====
+	[Seed] [Name]
+
+	There are literally hundreds of max-strength shields.
+
+	First: Banned/Black Market/Counterfeit/Forbidden/Illegal/'Irregular'/'Modified'/Outlawed/Pirate/Prohibited/Reverse-Engineered/Risky/Smuggled/Unlicensed
+	Second: Bionic/Lightning/Sonic/Uranium/Vector
+	Third: Armour/Battery/Buffer/Bulwark/Grafts/Lattice/Padding/Polariser/Resonator/Shield
+
+	50413	Unlicensed Uranium Battery
+	44957	Black Market Sonic Padding
+	40751	Smuggled Lightning Buffer
+	62711	Risky Vector Lattice
+	68885	Outlawed Bionic Grafts
+	75476	Suspect Lightning Polariser
+
+UP_SBLOBX (Cyclotron Ballista):
+=====
+	[Seed] [Name] [Damage] [Fire Rate] [Heat Dispersion]
+
+	Perfection:
+	=====
+		16614	ILLEGAL PHOTONIC MIRROR				2%	20%	40%	
+		20001	SMUGGLED CADMIUM OSCILLATOR			2%	20%	40%	
+		52141	COUNTERFEIT PHOTONIC AMPLIFIER		2%	20%	40%	
+		84086	PROHIBITED ULTRAVIOLET FILAMENT		2%	20%	40%	
+		96716	PIRATE EVAPORATIVE DE-LIMITER		2%	20%	40%	
+		18934	PROHIBITED ULTRAVIOLET POLARISER	2%	20%	40%	
+
+UP_SGUNX (Photon Cannon):
+=====
+	[Seed] [Name]
+
+	Wonder of wonders, there are (more than) 7 perfect upgrades!
+
+	17527	Prohibited Photonic Filament
+	19986	Illegal Photonic Mirror
+	27225	Risky Cadmium Oscillator
+	34334	'Modified' Evaporative Refractor
+	58509	Unlicensed Cadmium De-limiter
+	77292	Smuggled Ultraviolet Filament
+	81068	'Irregular' Infrared Resonator
+
+UP_SLASRX (Phase Beam):
+=====
+	[Seed] [Name] [Heat] [Damage]
+
+	00082	SUSPECT OVERLOADED DIODE BATTERY				100%	31%	
+	01127	SMUGGLED LIQUID LIGHT FILTER					100%	31%	
+	21541	Reverse-Engineered Fine-Tuned Emission Chamber	100%	31%
+	47920	Reverse-Engineered Advanced Beam Capacitor		100%	31%
+	50799	Smuggled Fine-Tuned Cooling System				100%	31%
+	79664	Outlawed Oscillating Photon Mirror				100%	31%
+
+	Technically there's a 100/30 with higher perfection, but I've decided to ignore it
+
+UP_SMINIX (Infra-Knife):
+=====
+	[Seed] [Name] [Damage] [Rate] [Heat]
+
+	00084	SMUGGLED EVAPORATIVE REFRACTOR		6%	15%	13%	
+	00149	SUSPECT PHOTONIC SPLITTER			6%	15%	13%	
+	00230	BANNED CADMIUM SPLITTER				6%	15%	13%	
+	00236	RISKY PHOTONIC OSCILLATOR			6%	15%	13%	
+	00287	'MODIFIED' EVAPORATIVE DE-LIMITER	6%	15%	13%	
+	00305	'IRREGULAR' PHOTONIC REFRACTOR		6%	15%	13%	
+
+UP_SSHOTX (Positron):
+=====
+	[Seed] [Name] [Damage] [Rate] [Heat]
+
+	00149	SUSPECT PHOTONIC SPLITTER			4%	20%	20%	
+	00230	BANNED CADMIUM SPLITTER				4%	20%	20%	
+	00236	RISKY PHOTONIC OSCILLATOR			4%	20%	20%	
+	00287	'MODIFIED' EVAPORATIVE DE-LIMITER	4%	20%	20%	
+	00305	'IRREGULAR' PHOTONIC REFRACTOR		4%	20%	20%	
+	00577	SUSPECT EVAPORATIVE RESONATOR		4%	20%	20%	

@@ -1,0 +1,171 @@
+UP_BOLTX (X-Class Boltcaster):
+=====
+	[Seed #] [In-Game Name] [Damage] [Reload] [Clip Size] [Fire Rate] [Burst Size] [Burst Cooldown] 
+
+	All damage increases will be rounded to 1 or 2 %, when they actually are a range from 1 to 5 flat increase.
+
+		Flat:	%:
+		-----	-----
+		1		1%	
+		2		1%
+		3		2%
+		4		2%
+		5		2%
+
+	There are now a number of perfect combinations for each combination of stats. I personally like:
+
+	Damage / Reload / Fire Rate / Cooldown:
+	-----
+	#04653	LUMINOUS BEAM ACCELERATOR	2%	-25%		20%		-20%	4
+	#59464	OPTICAL ION CYCLER			2%	-25%		20%		-20%	4
+	#67210	SONIC HEAT SINK				2%	-25%		20%		-20%	4
+
+UP_CANNX (X-Class Neutron Cannon):
+=====
+	[Seed #] [In-Game Name] [Damage] [Extra Bullets] [Charge Time] [Projectile Speed]
+
+	S class limits are 10/1/20/13 by the way
+
+	Projectile Speed Not Important:
+	-----
+		84302	14%	1	-25%	13%	BANNED ADVANCED ION SHAPER
+		12610	14%	1	-25%	13%	SUSPECT ENERGISED PLASMA UNIT
+		48490	14%	1	-25%	13%	RISKY OSCILLATING SAFETY OVERRIDE
+
+UP_GRENX (X-Class Plasma Cannon, no changes):
+=====
+	[Seed #] [In-Game Name] [Damage] [Bounce Height] [Explosion Radius] [Projectile Velocity]
+
+	The perfection numbers for this are a little wonky because 100% velocity out of 400% max
+	will really screw with your weighted average.
+
+	BIG SPLODEY (Max Damage + Radius, nothing else matters):
+	-----
+		63378	Prohibited Pugneum Core					0.667	89%			20%
+		15759	Banned Polarised Injector Plugs			0.651	87%			20%
+		16086	Banned Linear Timing Loom				0.659	89%			19%
+
+	Balanced Splodey (High Damage + Radius, get other stats along the way):
+		41651	Forbidden Kinetic Injector Plugs		0.458	82%	38%		20%
+		69548	Black Market Polarised Shell Loader		0.277	86%			18%	124%
+		84737	'Modified' Kinetic Shell Loader			0.347	88%			15%	152%
+
+	Dubious Perfection (Basically optimizing for velocity):
+		80909	Outlawed Polarised Injector Plugs		0.959		122%	17%	396%
+		5269	Pirate Pugneum Injector Plugs			0.938	87%			4%	394%
+		59968	Smuggled Kinetic Release Mechanism		0.928	87%			2%	392%
+
+	Strictly Better than S-Ranks:
+		80909	Outlawed Polarised Injector Plugs		0.959		122%	17%	396%
+		52110	Forbidden Polarised Shell Loader		0.925		112%	18%	391%
+		40070	'Modified' Linear Shell Loader			0.904	82%	111%		383%
+		98290	Smuggled Polarised Release Mechanism	0.889	85%	115%		369%
+		99296	Reverse-Engineered Kinetic Timing Loom	0.871	82%			20%	356%
+		81068	'Irregular' Kinetic Release Mechanism	0.819	83%	117%		336%
+		92024	Outlawed Kinetic Heat Pump				0.813		122%	15%	337%
+		2866	'Irregular' Polarised Core				0.71	85%	100%		300%
+
+		Full criteria: # Stats = 3, Damage >= 80%, Bounce >= 100%, Radius >= 15%, Velocity >= 300%
+
+UP_LASERX (X-Class Mining Laser):
+=====
+	[Seed #] [Mining Speed] [Heat Dispersion] [Efficiency] [Overheat Downtime] [In-Game Name]
+
+	Two options - either build heat slowly and never overheat, or build quickly and recover quick if you do overheat. I personally prefer #2. Your mining speed goes up as your heat does.
+
+	Never Overheat (Speed + Dispersion + Efficiency):
+	-----
+		6035	20%	55%	25%		BANNED LIQUID EMISSION CHAMBER
+		6037	20%	55%	25%		UNLICENSED LIQUID LIGHT FILTER
+		7207	20%	55%	25%		RISKY OSCILLATING BEAM CAPACITOR
+
+	Recover Overheats Quickly (Speed + Efficiency + Downtime):
+	-----
+		1448	20%		25%	-25%	BANNED OVERLOADED LIGHT FILTER
+		5395	20%		25%	-25%	OUTLAWED OVERLOADED LENS OPTICS
+		6953	20%		25%	-25%	PIRATE OVERLOADED BEAM CAPACITOR
+
+UP_RAILX (X-Class Blaze Javelin, no changes):
+=====
+	[Seed #] [In-Game Name] [Weapon Damage] [Charge Time]
+
+	There are a lot of max stat options. My favs:
+
+	29852	Illegal Illegal Core					5%	-25%
+	59166	Prohibited Supercharged Mass Chamber	5%	-25%
+	79981	Black Market Living Glass Accelerator	5%	-25%
+
+UP_SCANX (X-Class Scanner):
+=====
+	[Seed #] [In-Game Name] [Scan Radius] [Fauna Reward] [Flora Reward]
+
+	Max Scan Radius (sum of Fauna + Flora = 65800/65994):
+	-----
+		35510	ILLEGAL FREQUENCY DETECTOR			50%	10998%	10956%
+		50785	COUNTERFEIT PARALLEL ANALYSIS UNIT	50%	10932%	10995%
+		06314	BANNED PARALLEL SCOPE				50%	10939%	10980%
+
+	Maximum Flora/Fauna Reward (sum of Fauna + Flora = 65953/65994:
+	-----
+		04754	SMUGGLED FREQUENCY SCOPE			47%	10991%	10999%
+		46419	OUTLAWED PARALLEL VISUALISER		44%	10993%	10989%
+		08832	'IRREGULAR' FREQUENCY ANALYSIS UNIT	46%	10982%	10999%
+
+	Difference: 13% scan radius vs. 153% total scan reward
+
+UP_SENGUN (Forbidden Multi-Tool Modules):
+=====
+	[Seed #] [In-Game Name] [Damage] [Reload Time] [Fire Rate]
+
+	There are a lot of perfect modules. My favs:
+	-----
+		#08787	D:+2%	R:-15%	F:+20%	ANOINTED OBLITERATOR
+		#82007	D:+2%	R:-15%	F:+20%	ANOMALOUS DE-LIMITER
+		#39803	D:+2%	R:-15%	F:+20%	IMPOSSIBLE ANNIHILATOR
+
+UP_SHOTX (X-Class Scatter Blaster):
+=====
+	[Seed #] [In-Game Name] [Damage] [Reload] [Clip] [Fire Rate] [Additional Shots] [Burst Cooldown]
+
+	I don't think you need more than 4 shots per burst. 4 shots means 1 reload = 3 full bursts, and lets you hold down
+	for 2 or 3 shots without activating burst cooldown.
+
+	Therefore, my setup is 3x Damage, 3x Fire Rate, 3x Reload, 2x Shots, 1x Cooldown
+	---
+		08641	RISKY CADMIUM COMPRESSION UNIT 		3%	-30%	20%		1.0			
+		61137	UNLICENSED ELECTRIFIED HEAT PUMP	3%	-30%	20%		1.0		
+		09617	'MODIFIED' REBUILT BARREL 			3%	-30%	20%				-25%		
+
+UP_SMGX (X-Class Pulse Spitter):
+=====
+	[Seed #] [In-Game Name] [Damage] [Fire Rate] [Reload] [Clip Size]
+
+	There are a lot of perfects:
+	---
+		00622	OUTLAWED ATOMIC SOLIDIFIER	4%	20%	-15%	12.0	
+		02394	ILLEGAL SURGE BATTERY		4%	20%	-15%	12.0	
+		06782	RISKY FLOW EXCITOR			4%	20%	-15%	12.0	
+
+UP_TGRENX (X-Class Geology Cannon):
+=====
+	[Seed #] [In-Game Name] [Damage] [Radius] [Speed]
+
+	Damage + Radius (Fighting):
+	------
+		06314	BANNED LINEAR CORE 					44%	60%	
+		04500	SMUGGLED KINETIC COILS				44%	60%	
+		96756	PIRATE UNSTABLE HEAT PUMP			44%	60%	
+
+
+	Damage + Speed (Also fighting idk):
+	-----
+		03014	'IRREGULAR' KINETIC GAS EXPANDER	44%		399%
+		31434	OUTLAWED PUGNEUM RELEASE MECHANISM 	44%		399%
+		64449	BANNED PUGNEUM CORE 				44%		399%	
+
+
+	Radius + Speed (Excavation):
+	-----
+		76366	'IRREGULAR' POLARISED TIMING LOOM		60%	399%
+		77916	UNLICENSED PUGNEUM LAUNCH SYSTEM		60%	399%
+		29393	COUNTERFEIT UNSTABLE GAS EXPANDER		60%	399%

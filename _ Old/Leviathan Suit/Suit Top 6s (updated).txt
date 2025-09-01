@@ -1,0 +1,116 @@
+UP_ENGYX (X-Class Life Support):
+=====
+	[Seed #] [In-Game Name] [Life Support Tanks] [Solar Panel Power]
+
+	Perfect Modules
+	-----
+		28458	AMMONIUM GENERATOR UNIT		109%	75%
+		39985	CARBON RECYCLER				109%	75%
+		35373	CARBON SIEVE				109%	75%
+		78075	GAS PURIFIER				109%	75%
+		62142	OXYGEN HARVESTER			109%	75%
+		76768	BANNED NITROGEN TANKS 		109%	75%
+
+UP_HAZX (X-Class Hazard Protection):
+=====
+	[Seed #] [In-Game Name] [Cold] [Thermal] [Radiation] [Toxic]
+
+	Three shorts three longs, six perfects.
+
+	Perfect Modules
+	-----
+		67093	ILLEGAL KINETIC ION SHIELD							10%	10%	10%	10%
+		3156	PIRATE KINETIC MICROFILTERS							10%	10%	10%	10%
+		13718	RISKY KINETIC PH BALANCER							10%	10%	10%	10%
+		12160	REVERSE-ENGINEERED HIGH-ENERGY ATMOSPHERE REGULATOR	10%	10%	10%	10%
+		18540	BLACK MARKET NON-LINEAR SUBLIMATION PUMP			10%	10%	10%	10%
+		68267	UNLICENSED CRYOSTATIC LUNG REPLACEMENT				10%	10%	10%	10%
+
+UP_JETX (X-Class Movement):
+=====
+	[Seed #] [In-Game Name] [Jetpack Tanks] [Jetpack Ignition Boost] [Sprint Duration] [Sprint Recovery] [Jetpack Drain on Life Support] [Jetpack Refill]
+
+	All modules will have guarenteed jetpack tanks and ignition boost, then pick 2 out of the remaining 4. Everyone will have their own preferences, but here are my suggestions:
+
+	Jetpacker (Priority Tanks + Refill, with Ignition and Drain):
+	-----
+		96162	BLACK MARKET PLASMA JETS	229%	15%			25%	30%
+		60947	OUTLAWED URANIUM NOZZLES	228%	15%			25%	30%
+		6730	BLACK MARKET URANIUM JETS	229%	15%			24%	30%
+		11205	ILLEGAL BYPASS JETS			229%	15%			25%	29%
+		11718	SUSPECT URANIUM DIFFUSER	229%	15%			25%	29%
+		20470	FORBIDDEN BYPASS NOZZLES	229%	15%			25%	29%
+
+		Full criteria: Has Refill + Drain, Tank % + Refill % >= 255 %, sorted by perfection
+
+UP_SHLD4 or UP_SHLDX (S or X-Class Shields):
+=====
+	You can use either of these, there are like hundreds of perfect modules in both X and S class
+
+	As a fun thing, here's a list of seeds that will get you a perfect module when used for both X and S:
+		414
+		925
+		4206
+		11108
+		12196
+		12632
+
+	Also: 26440, 31837, 33464, 35139, 36816, 42974, 43728, 45967, 48726, 51375, 54933, 66168, 71517, 72935, 73350, 84391, 86635, 90065, 90397, 91087, 91149, 97601, 98212
+
+UP_SNSUIT (Forbidden Exosuit Modules):
+=====
+	[Seed #] [Name] [Shield Strength] [Core Health] [LS Tanks] [SP Power] [Jetpack Efficiency] [Sprint Distance]
+
+	These can have up to 4 stats, all chosen at random out of the six. Here are some suggestions:
+
+	Tank (Armor + Health, with whatever else):
+	-----
+		Top 6 by perfection:
+			33140	Cursed Shield Tanks			0.904	30%	33%	104%			52%
+			78930	Anomalous Stasis Tank		0.896	28%	33%	103%	67%		
+			40271	Glassy Stabiliser			0.877	33%	33%	103%			45%
+			93199	Cursed Dampener				0.877	29%	33%	92%		73%		
+			70342	Released Dampener			0.866	33%	33%			66%		50%
+			55895	Rescued Exhaust				0.86	34%	33%	106%			38%
+
+		Basically Shield + Life Support (no sprint or jetpack drain):
+			78930	Anomalous Stasis Tank		0.896	28%	33%	103%	67%
+			93199	Cursed Dampener				0.877	29%	33%	92%		73%
+			42874	Anomalous Harmoniser		0.833	32%	33%	91%		62%
+			77849	Polymorphous Shield Tanks	0.823	30%	33%	95%		58%
+			61545	Non-compliant Harmoniser	0.804	30%	33%	108%	41%
+			58469	Anointed Energy Field		0.756	34%	33%	74%		61%
+
+		Basically Shield + Sprint + etc. (sprint required, still no jetpack drain):
+			33140	Cursed Shield Tanks			0.904	30%	33%	104%			52%
+			40271	Glassy Stabiliser			0.877	33%	33%	103%			45%
+			70342	Released Dampener			0.866	33%	33%			66%		50%
+			55895	Rescued Exhaust				0.86	34%	33%	106%			38%
+			87262	Anomalous Dynamo			0.857	21%	33%			73%		54%
+			79109	Crimson Diffuser			0.849	34%	33%	98%				44%
+
+
+	No Health:
+	-----
+		11170	Forsaken Stabiliser				0.865	30%		103%	69%		42%
+		1108	Impossible Dynamo				0.835	22%		103%	73%	10%	
+		43055	Doomed Bulwark					0.821	26%		97%		64%		46%
+		79957	Anointed Harvester				0.754	34%		89%		60%		33%
+		20000	Extinguished Bulwark			0.734	25%		105%	29%		52%
+		40209	Extinguished Regulator			0.733	28%		93%		69%		21%
+
+
+
+		You can max out your health with other modules, so why not go for the useful stats?
+
+
+	Florida Man (Pure Perfection, will give you more balanced stats):
+	-----
+		71097	Anomalous Bulwark				0.958	34%	33%			71%	25%	
+		7526	Extinguished Regulator			0.951		33%			74%	24%	54%
+		52880	Writhing Turbine				0.925	33%	33%	107%		18%	
+		91683	Glassy Diffuser					0.924	34%	33%			71%	21%	
+		94640	Non-compliant Regulator			0.908	33%	33%			67%	24%	
+		90437	Anomalous Turbine				0.906	34%	33%			74%	16%	
+
+	You can do other things like optimizing for life support, but you can do that on your own time.
